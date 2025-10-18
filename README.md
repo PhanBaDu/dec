@@ -2,625 +2,623 @@
 
 ## Bảng USERS (Người dùng)
 
-| Tên cột       | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
-| ------------- | ------------------------ | ------------ | --------- | ------------------------------------------------------ |
-| id            | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                          |
-| username      | Tên đăng nhập            | VARCHAR      | 50        | Duy nhất (UNIQUE), Không rỗng (NOT NULL)               |
-| email         | Địa chỉ email            | VARCHAR      | 100       | Duy nhất (UNIQUE), Không rỗng (NOT NULL)               |
-| password_hash | Mã hóa mật khẩu          | VARCHAR      | 255       | Không rỗng (NOT NULL)                                  |
-| full_name     | Họ và tên đầy đủ         | VARCHAR      | 100       | Không rỗng (NOT NULL)                                  |
-| phone         | Số điện thoại            | VARCHAR      | 20        |                                                        |
-| address       | Địa chỉ                  | TEXT         |           |                                                        |
-| date_of_birth | Ngày sinh                | DATE         |           |                                                        |
-| gender        | Giới tính                | ENUM         |           | ('male', 'female', 'other')                            |
-| avatar_url    | URL ảnh đại diện         | VARCHAR      | 255       |                                                        |
-| is_active     | Trạng thái hoạt động     | BOOLEAN      |           | Mặc định TRUE                                          |
-| created_at    | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                             |
-| updated_at    | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
-
----
-
-## Bảng ROLES (Vai trò)
-
-| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                       |
-| ----------- | ------------------------ | ------------ | --------- | ----------------------------- |
-| id          | Khóa chính (PRIMARY KEY) | INT          |           | Tự động tăng (AUTO_INCREMENT) |
-| name        | Tên vai trò              | VARCHAR      | 50        | Duy nhất (UNIQUE), Không rỗng |
-| description | Mô tả vai trò            | TEXT         |           |                               |
-| created_at  | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP    |
-
----
-
-## Bảng PERMISSIONS (Quyền hạn)
-
-| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                       |
-| ----------- | ------------------------ | ------------ | --------- | ----------------------------- |
-| id          | Khóa chính (PRIMARY KEY) | INT          |           | Tự động tăng (AUTO_INCREMENT) |
-| name        | Tên quyền hạn            | VARCHAR      | 100       | Duy nhất (UNIQUE), Không rỗng |
-| description | Mô tả quyền hạn          | TEXT         |           |                               |
-| resource    | Tài nguyên               | VARCHAR      | 50        | Không rỗng (NOT NULL)         |
-| action      | Hành động                | VARCHAR      | 50        | Không rỗng (NOT NULL)         |
-| created_at  | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP    |
-
----
-
-## Bảng USER_ROLES (Liên kết người dùng - vai trò)
-
-| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                               |
-| ----------- | ------------------------ | ------------ | --------- | ------------------------------------- |
-| id          | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)         |
-| user_id     | ID người dùng            | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng users |
-| role_id     | ID vai trò               | INT          |           | Không rỗng, Khóa ngoại đến bảng roles |
-| assigned_at | Thời gian gán            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP            |
-| assigned_by | ID người gán             | BIGINT       |           | Khóa ngoại đến bảng users             |
-
----
-
-## Bảng ROLE_PERMISSIONS (Liên kết vai trò - quyền hạn)
-
-| Tên cột       | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                |
-| ------------- | ------------------------ | ------------ | --------- | -------------------------------------- |
-| id            | Khóa chính (PRIMARY KEY) | INT          |           | Tự động tăng (AUTO_INCREMENT)          |
-| role_id       | ID vai trò               | INT          |           | Không rỗng, Khóa ngoại đến roles       |
-| permission_id | ID quyền hạn             | INT          |           | Không rỗng, Khóa ngoại đến permissions |
-
----
-
-## Bảng CUSTOMERS (Khách hàng)
-
-| Tên cột                    | Giải thích                      | Kiểu dữ liệu | Maxlength | Ghi chú                                                     |
-| -------------------------- | ------------------------------- | ------------ | --------- | ----------------------------------------------------------- |
-| id                         | Khóa chính (PRIMARY KEY)        | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                               |
-| user_id                    | ID người dùng                   | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng users                       |
-| customer_code              | Mã khách hàng                   | VARCHAR      | 20        | Duy nhất (UNIQUE), Không rỗng                               |
-| membership_rank            | Cấp độ thành viên               | ENUM         |           | ('bronze', 'silver', 'gold', 'platinum'), Mặc định 'bronze' |
-| total_spent                | Tổng chi tiêu                   | DECIMAL      | 15,2      | Mặc định 0                                                  |
-| loyalty_points             | Điểm tích lũy                   | INT          |           | Mặc định 0                                                  |
-| preferred_payment_method   | Phương thức thanh toán ưa thích | VARCHAR      | 50        |                                                             |
-| preferred_shipping_address | Địa chỉ giao hàng ưa thích      | TEXT         |           |                                                             |
-| is_vip                     | Khách hàng VIP                  | BOOLEAN      |           | Mặc định FALSE                                              |
-| created_at                 | Thời gian tạo                   | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                                  |
-| updated_at                 | Thời gian cập nhật              | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP      |
-
----
-
-## Bảng CUSTOMER_ADDRESSES (Địa chỉ khách hàng)
-
-| Tên cột       | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
-| ------------- | ------------------------ | ------------ | --------- | ------------------------------------------------------ |
-| id            | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                          |
-| customer_id   | ID khách hàng            | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng customers              |
-| address_type  | Loại địa chỉ             | ENUM         |           | ('home', 'work', 'other'), Mặc định 'home'             |
-| full_name     | Họ tên người nhận        | VARCHAR      | 100       | Không rỗng (NOT NULL)                                  |
-| phone         | Số điện thoại            | VARCHAR      | 20        | Không rỗng (NOT NULL)                                  |
-| address_line1 | Địa chỉ dòng 1           | VARCHAR      | 255       | Không rỗng (NOT NULL)                                  |
-| address_line2 | Địa chỉ dòng 2           | VARCHAR      | 255       |                                                        |
-| city          | Thành phố                | VARCHAR      | 100       | Không rỗng (NOT NULL)                                  |
-| district      | Quận/Huyện               | VARCHAR      | 100       | Không rỗng (NOT NULL)                                  |
-| ward          | Phường/Xã                | VARCHAR      | 100       | Không rỗng (NOT NULL)                                  |
-| postal_code   | Mã bưu điện              | VARCHAR      | 20        |                                                        |
-| is_default    | Địa chỉ mặc định         | BOOLEAN      |           | Mặc định FALSE                                         |
-| created_at    | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                             |
-| updated_at    | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
-
----
-
-## Bảng CATEGORIES (Danh mục sách)
-
-| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
-| ----------- | ------------------------ | ------------ | --------- | ------------------------------------------------------ |
-| id          | Khóa chính (PRIMARY KEY) | INT          |           | Tự động tăng (AUTO_INCREMENT)                          |
-| name        | Tên danh mục             | VARCHAR      | 100       | Không rỗng (NOT NULL)                                  |
-| description | Mô tả danh mục           | TEXT         |           |                                                        |
-| parent_id   | ID danh mục cha          | INT          |           | Khóa ngoại đến bảng categories                         |
-| image_url   | URL hình ảnh             | VARCHAR      | 255       |                                                        |
-| is_active   | Trạng thái hoạt động     | BOOLEAN      |           | Mặc định TRUE                                          |
-| sort_order  | Thứ tự sắp xếp           | INT          |           | Mặc định 0                                             |
-| created_at  | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                             |
-| updated_at  | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
-
----
-
-## Bảng AUTHORS (Tác giả)
-
-| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
-| ----------- | ------------------------ | ------------ | --------- | ------------------------------------------------------ |
-| id          | Khóa chính (PRIMARY KEY) | INT          |           | Tự động tăng (AUTO_INCREMENT)                          |
-| name        | Tên tác giả              | VARCHAR      | 100       | Không rỗng (NOT NULL)                                  |
-| biography   | Tiểu sử                  | TEXT         |           |                                                        |
-| birth_date  | Ngày sinh                | DATE         |           |                                                        |
-| nationality | Quốc tịch                | VARCHAR      | 50        |                                                        |
-| image_url   | URL hình ảnh             | VARCHAR      | 255       |                                                        |
-| created_at  | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                             |
-| updated_at  | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
-
----
-
-## Bảng PUBLISHERS (Nhà xuất bản)
-
-| Tên cột      | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
-| ------------ | ------------------------ | ------------ | --------- | ------------------------------------------------------ |
-| id           | Khóa chính (PRIMARY KEY) | INT          |           | Tự động tăng (AUTO_INCREMENT)                          |
-| name         | Tên nhà xuất bản         | VARCHAR      | 100       | Không rỗng (NOT NULL)                                  |
-| description  | Mô tả                    | TEXT         |           |                                                        |
-| website      | Website                  | VARCHAR      | 255       |                                                        |
-| contact_info | Thông tin liên hệ        | TEXT         |           |                                                        |
-| created_at   | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                             |
-| updated_at   | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
-
----
-
-## Bảng BOOKS (Sách)
-
-| Tên cột             | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                |
-| ------------------- | ------------------------ | ------------ | --------- | ---------------------------------------------------------------------- |
-| id                  | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                                          |
-| isbn                | Mã ISBN                  | VARCHAR      | 20        | Duy nhất (UNIQUE)                                                      |
-| title               | Tên sách                 | VARCHAR      | 255       | Không rỗng (NOT NULL)                                                  |
-| subtitle            | Phụ đề                   | VARCHAR      | 255       |                                                                        |
-| description         | Mô tả sách               | TEXT         |           |                                                                        |
-| content             | Nội dung sách            | TEXT         |           |                                                                        |
-| page_count          | Số trang                 | INT          |           |                                                                        |
-| publication_date    | Ngày xuất bản            | DATE         |           |                                                                        |
-| language            | Ngôn ngữ                 | VARCHAR      | 50        | Mặc định 'Vietnamese'                                                  |
-| format              | Định dạng                | ENUM         |           | ('hardcover', 'paperback', 'ebook', 'audiobook'), Mặc định 'paperback' |
-| dimensions          | Kích thước               | VARCHAR      | 50        |                                                                        |
-| weight              | Trọng lượng              | DECIMAL      | 8,2       |                                                                        |
-| price               | Giá bán                  | DECIMAL      | 10,2      | Không rỗng (NOT NULL)                                                  |
-| original_price      | Giá gốc                  | DECIMAL      | 10,2      |                                                                        |
-| discount_percentage | Phần trăm giảm giá       | DECIMAL      | 5,2       | Mặc định 0                                                             |
-| category_id         | ID danh mục              | INT          |           | Khóa ngoại đến bảng categories                                         |
-| publisher_id        | ID nhà xuất bản          | INT          |           | Khóa ngoại đến bảng publishers                                         |
-| cover_image_url     | URL ảnh bìa              | VARCHAR      | 255       |                                                                        |
-| sample_content      | Nội dung mẫu             | TEXT         |           |                                                                        |
-| is_active           | Trạng thái hoạt động     | BOOLEAN      |           | Mặc định TRUE                                                          |
-| is_featured         | Sách nổi bật             | BOOLEAN      |           | Mặc định FALSE                                                         |
-| stock_quantity      | Số lượng tồn kho         | INT          |           | Mặc định 0                                                             |
-| min_stock_level     | Mức tồn kho tối thiểu    | INT          |           | Mặc định 5                                                             |
-| max_stock_level     | Mức tồn kho tối đa       | INT          |           | Mặc định 1000                                                          |
-| created_at          | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                                             |
-| updated_at          | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP                 |
-
----
-
-## Bảng BOOK_AUTHORS (Liên kết sách - tác giả)
-
-| Tên cột   | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                            |
-| --------- | ------------------------ | ------------ | --------- | ------------------------------------------------------------------ |
-| id        | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                                      |
-| book_id   | ID sách                  | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng books                              |
-| author_id | ID tác giả               | INT          |           | Không rỗng, Khóa ngoại đến bảng authors                            |
-| role      | Vai trò                  | ENUM         |           | ('author', 'co-author', 'translator', 'editor'), Mặc định 'author' |
-
----
-
-## Bảng BOOK_IMAGES (Hình ảnh sách)
-
-| Tên cột    | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                               |
-| ---------- | ------------------------ | ------------ | --------- | ------------------------------------- |
-| id         | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)         |
-| book_id    | ID sách                  | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng books |
-| image_url  | URL hình ảnh             | VARCHAR      | 255       | Không rỗng (NOT NULL)                 |
-| alt_text   | Văn bản thay thế         | VARCHAR      | 255       |                                       |
-| sort_order | Thứ tự sắp xếp           | INT          |           | Mặc định 0                            |
-| is_primary | Ảnh chính                | BOOLEAN      |           | Mặc định FALSE                        |
-| created_at | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP            |
-
----
-
-## Bảng WAREHOUSES (Kho)
-
-| Tên cột    | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
-| ---------- | ------------------------ | ------------ | --------- | ------------------------------------------------------ |
-| id         | Khóa chính (PRIMARY KEY) | INT          |           | Tự động tăng (AUTO_INCREMENT)                          |
-| name       | Tên kho                  | VARCHAR      | 100       | Không rỗng (NOT NULL)                                  |
-| address    | Địa chỉ kho              | TEXT         |           | Không rỗng (NOT NULL)                                  |
-| manager_id | ID quản lý               | BIGINT       |           | Khóa ngoại đến bảng users                              |
-| capacity   | Sức chứa                 | INT          |           |                                                        |
-| is_active  | Trạng thái hoạt động     | BOOLEAN      |           | Mặc định TRUE                                          |
-| created_at | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                             |
-| updated_at | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
-
----
-
-## Bảng INVENTORY (Tồn kho)
-
-| Tên cột            | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
-| ------------------ | ------------------------ | ------------ | --------- | ------------------------------------------------------ |
-| id                 | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                          |
-| book_id            | ID sách                  | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng books                  |
-| warehouse_id       | ID kho                   | INT          |           | Không rỗng, Khóa ngoại đến bảng warehouses             |
-| quantity           | Số lượng                 | INT          |           | Không rỗng, Mặc định 0                                 |
-| reserved_quantity  | Số lượng đã đặt          | INT          |           | Mặc định 0                                             |
-| available_quantity | Số lượng có sẵn          | INT          |           | Tự động tính (quantity - reserved_quantity)            |
-| last_updated       | Lần cập nhật cuối        | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
-
----
-
-## Bảng INVENTORY_HISTORY (Lịch sử tồn kho)
-
-| Tên cột          | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                  |
-| ---------------- | ------------------------ | ------------ | --------- | ------------------------------------------------------------------------ |
-| id               | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                                            |
-| book_id          | ID sách                  | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng books                                    |
-| warehouse_id     | ID kho                   | INT          |           | Không rỗng, Khóa ngoại đến bảng warehouses                               |
-| transaction_type | Loại giao dịch           | ENUM         |           | ('import', 'export', 'adjustment', 'reserved', 'unreserved'), Không rỗng |
-| quantity_change  | Thay đổi số lượng        | INT          |           | Không rỗng (NOT NULL)                                                    |
-| quantity_before  | Số lượng trước           | INT          |           | Không rỗng (NOT NULL)                                                    |
-| quantity_after   | Số lượng sau             | INT          |           | Không rỗng (NOT NULL)                                                    |
-| reason           | Lý do                    | VARCHAR      | 255       |                                                                          |
-| reference_id     | ID tham chiếu            | BIGINT       |           |                                                                          |
-| reference_type   | Loại tham chiếu          | VARCHAR      | 50        |                                                                          |
-| created_by       | ID người tạo             | BIGINT       |           | Khóa ngoại đến bảng users                                                |
-| created_at       | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                                               |
-
----
-
-## Bảng CART_ITEMS (Sản phẩm trong giỏ hàng)
-
-| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
-| ----------- | ------------------------ | ------------ | --------- | ------------------------------------------------------ |
-| id          | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                          |
-| customer_id | ID khách hàng            | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng customers              |
-| book_id     | ID sách                  | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng books                  |
-| quantity    | Số lượng                 | INT          |           | Không rỗng, Mặc định 1                                 |
-| added_at    | Thời gian thêm           | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                             |
-| updated_at  | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
-
----
-
-## Bảng WISHLIST_ITEMS (Danh sách yêu thích)
-
-| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                              |
-| ----------- | ------------------------ | ------------ | --------- | ------------------------------------ |
-| id          | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)        |
-| customer_id | ID khách hàng            | BIGINT       |           | Không rỗng, Khóa ngoại đến customers |
-| book_id     | ID sách                  | BIGINT       |           | Không rỗng, Khóa ngoại đến books     |
-| added_at    | Thời gian thêm           | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP           |
-
----
-
-## Bảng ORDERS (Đơn hàng)
-
-| Tên cột          | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                                                     |
-| ---------------- | ------------------------ | ------------ | --------- | ----------------------------------------------------------------------------------------------------------- |
-| id               | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                                                                               |
-| order_code       | Mã đơn hàng              | VARCHAR      | 20        | Duy nhất (UNIQUE), Không rỗng                                                                               |
-| customer_id      | ID khách hàng            | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng customers                                                                   |
-| order_type       | Loại đơn hàng            | ENUM         |           | ('online', 'offline'), Mặc định 'online'                                                                    |
-| status           | Trạng thái đơn hàng      | ENUM         |           | ('pending', 'confirmed', 'preparing', 'shipping', 'delivered', 'cancelled', 'returned'), Mặc định 'pending' |
-| payment_status   | Trạng thái thanh toán    | ENUM         |           | ('pending', 'paid', 'failed', 'refunded'), Mặc định 'pending'                                               |
-| shipping_status  | Trạng thái vận chuyển    | ENUM         |           | ('pending', 'preparing', 'shipped', 'delivered', 'returned'), Mặc định 'pending'                            |
-| subtotal         | Tổng tiền phụ            | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                                                                                       |
-| discount_amount  | Số tiền giảm giá         | DECIMAL      | 15,2      | Mặc định 0                                                                                                  |
-| shipping_fee     | Phí vận chuyển           | DECIMAL      | 15,2      | Mặc định 0                                                                                                  |
-| tax_amount       | Số tiền thuế             | DECIMAL      | 15,2      | Mặc định 0                                                                                                  |
-| total_amount     | Tổng tiền                | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                                                                                       |
-| payment_method   | Phương thức thanh toán   | VARCHAR      | 50        |                                                                                                             |
-| shipping_address | Địa chỉ giao hàng        | TEXT         |           | Không rỗng (NOT NULL)                                                                                       |
-| billing_address  | Địa chỉ thanh toán       | TEXT         |           |                                                                                                             |
-| notes            | Ghi chú                  | TEXT         |           |                                                                                                             |
-| priority         | Độ ưu tiên               | ENUM         |           | ('low', 'medium', 'high', 'urgent'), Mặc định 'medium'                                                      |
-| created_by       | ID người tạo             | BIGINT       |           | Khóa ngoại đến bảng users                                                                                   |
-| created_at       | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                                                                                  |
-| updated_at       | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP                                                      |
-
----
-
-## Bảng ORDER_ITEMS (Chi tiết đơn hàng)
-
-| Tên cột             | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                           |
-| ------------------- | ------------------------ | ------------ | --------- | --------------------------------- |
-| id                  | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)     |
-| order_id            | ID đơn hàng              | BIGINT       |           | Không rỗng, Khóa ngoại đến orders |
-| book_id             | ID sách                  | BIGINT       |           | Không rỗng, Khóa ngoại đến books  |
-| quantity            | Số lượng                 | INT          |           | Không rỗng (NOT NULL)             |
-| unit_price          | Giá đơn vị               | DECIMAL      | 10,2      | Không rỗng (NOT NULL)             |
-| discount_percentage | Phần trăm giảm giá       | DECIMAL      | 5,2       | Mặc định 0                        |
-| total_price         | Tổng giá                 | DECIMAL      | 15,2      | Không rỗng (NOT NULL)             |
-
----
-
-## Bảng PAYMENTS (Thanh toán)
-
-| Tên cột          | Giải thích                  | Kiểu dữ liệu | Maxlength | Ghi chú                                                                                       |
-| ---------------- | --------------------------- | ------------ | --------- | --------------------------------------------------------------------------------------------- |
-| id               | Khóa chính (PRIMARY KEY)    | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                                                                 |
-| order_id         | ID đơn hàng                 | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng orders                                                        |
-| payment_method   | Phương thức thanh toán      | VARCHAR      | 50        | Không rỗng (NOT NULL)                                                                         |
-| payment_status   | Trạng thái thanh toán       | ENUM         |           | ('pending', 'processing', 'completed', 'failed', 'cancelled', 'refunded'), Mặc định 'pending' |
-| amount           | Số tiền                     | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                                                                         |
-| transaction_id   | ID giao dịch                | VARCHAR      | 100       |                                                                                               |
-| gateway_response | Phản hồi từ cổng thanh toán | TEXT         |           |                                                                                               |
-| paid_at          | Thời gian thanh toán        | TIMESTAMP    |           |                                                                                               |
-| created_at       | Thời gian tạo               | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                                                                    |
-| updated_at       | Thời gian cập nhật          | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP                                        |
-
----
-
-## Bảng SHIPPING_PROVIDERS (Đơn vị vận chuyển)
-
-| Tên cột      | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
-| ------------ | ------------------------ | ------------ | --------- | ------------------------------------------------------ |
-| id           | Khóa chính (PRIMARY KEY) | INT          |           | Tự động tăng (AUTO_INCREMENT)                          |
-| name         | Tên đơn vị               | VARCHAR      | 100       | Không rỗng (NOT NULL)                                  |
-| code         | Mã đơn vị                | VARCHAR      | 20        | Duy nhất (UNIQUE), Không rỗng                          |
-| contact_info | Thông tin liên hệ        | TEXT         |           |                                                        |
-| is_active    | Trạng thái hoạt động     | BOOLEAN      |           | Mặc định TRUE                                          |
-| created_at   | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                             |
-| updated_at   | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
-
----
-
-## Bảng SHIPMENTS (Vận chuyển)
-
-| Tên cột                 | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                                       |
-| ----------------------- | ------------------------ | ------------ | --------- | --------------------------------------------------------------------------------------------- |
-| id                      | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                                                                 |
-| order_id                | ID đơn hàng              | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng orders                                                        |
-| shipping_provider_id    | ID đơn vị vận chuyển     | INT          |           | Không rỗng, Khóa ngoại đến bảng shipping_providers                                            |
-| tracking_number         | Mã vận đơn               | VARCHAR      | 100       |                                                                                               |
-| status                  | Trạng thái vận chuyển    | ENUM         |           | ('pending', 'picked_up', 'in_transit', 'delivered', 'failed', 'returned'), Mặc định 'pending' |
-| shipping_fee            | Phí vận chuyển           | DECIMAL      | 10,2      | Không rỗng (NOT NULL)                                                                         |
-| estimated_delivery_date | Ngày giao dự kiến        | DATE         |           |                                                                                               |
-| actual_delivery_date    | Ngày giao thực tế        | DATE         |           |                                                                                               |
-| notes                   | Ghi chú                  | TEXT         |           |                                                                                               |
-| created_at              | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                                                                    |
-| updated_at              | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP                                        |
-
----
-
-## Bảng SHIPMENT_HISTORY (Lịch sử vận chuyển)
-
-| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                               |
-| ----------- | ------------------------ | ------------ | --------- | ------------------------------------------------------------------------------------- |
-| id          | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                                                         |
-| shipment_id | ID vận chuyển            | BIGINT       |           | Không rỗng, Khóa ngoại đến shipments                                                  |
-| status      | Trạng thái               | ENUM         |           | ('pending', 'picked_up', 'in_transit', 'delivered', 'failed', 'returned'), Không rỗng |
-| location    | Vị trí                   | VARCHAR      | 255       |                                                                                       |
-| description | Mô tả                    | TEXT         |           |                                                                                       |
-| created_at  | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                                                            |
-
----
-
-## Bảng DISCOUNT_CODES (Mã giảm giá)
-
-| Tên cột             | Giải thích                 | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
-| ------------------- | -------------------------- | ------------ | --------- | ------------------------------------------------------ |
-| id                  | Khóa chính (PRIMARY KEY)   | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                          |
-| code                | Mã giảm giá                | VARCHAR      | 50        | Duy nhất (UNIQUE), Không rỗng                          |
-| name                | Tên mã giảm giá            | VARCHAR      | 100       | Không rỗng (NOT NULL)                                  |
-| description         | Mô tả                      | TEXT         |           |                                                        |
-| discount_type       | Loại giảm giá              | ENUM         |           | ('percentage', 'fixed_amount'), Không rỗng             |
-| discount_value      | Giá trị giảm giá           | DECIMAL      | 10,2      | Không rỗng (NOT NULL)                                  |
-| min_order_amount    | Số tiền đơn hàng tối thiểu | DECIMAL      | 15,2      |                                                        |
-| max_discount_amount | Số tiền giảm tối đa        | DECIMAL      | 15,2      |                                                        |
-| usage_limit         | Giới hạn sử dụng           | INT          |           |                                                        |
-| used_count          | Số lần đã sử dụng          | INT          |           | Mặc định 0                                             |
-| is_active           | Trạng thái hoạt động       | BOOLEAN      |           | Mặc định TRUE                                          |
-| valid_from          | Có hiệu lực từ             | TIMESTAMP    |           | Không rỗng (NOT NULL)                                  |
-| valid_until         | Có hiệu lực đến            | TIMESTAMP    |           | Không rỗng (NOT NULL)                                  |
-| created_by          | ID người tạo               | BIGINT       |           | Khóa ngoại đến bảng users                              |
-| created_at          | Thời gian tạo              | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                             |
-| updated_at          | Thời gian cập nhật         | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
-
----
-
-## Bảng DISCOUNT_CODE_USAGE (Sử dụng mã giảm giá)
-
-| Tên cột          | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                   |
-| ---------------- | ------------------------ | ------------ | --------- | ----------------------------------------- |
-| id               | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)             |
-| discount_code_id | ID mã giảm giá           | BIGINT       |           | Không rỗng, Khóa ngoại đến discount_codes |
-| order_id         | ID đơn hàng              | BIGINT       |           | Không rỗng, Khóa ngoại đến orders         |
-| customer_id      | ID khách hàng            | BIGINT       |           | Không rỗng, Khóa ngoại đến customers      |
-| discount_amount  | Số tiền giảm giá         | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                     |
-| used_at          | Thời gian sử dụng        | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                |
-
----
-
-## Bảng BOOK_REVIEWS (Đánh giá sách)
-
-| Tên cột       | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
-| ------------- | ------------------------ | ------------ | --------- | ------------------------------------------------------ |
-| id            | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                          |
-| book_id       | ID sách                  | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng books                  |
-| customer_id   | ID khách hàng            | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng customers              |
-| order_id      | ID đơn hàng              | BIGINT       |           | Khóa ngoại đến bảng orders                             |
-| rating        | Điểm đánh giá            | INT          |           | Không rỗng, Từ 1-5 (CHECK constraint)                  |
-| title         | Tiêu đề đánh giá         | VARCHAR      | 255       |                                                        |
-| content       | Nội dung đánh giá        | TEXT         |           |                                                        |
-| is_verified   | Đã xác minh              | BOOLEAN      |           | Mặc định FALSE                                         |
-| is_approved   | Đã duyệt                 | BOOLEAN      |           | Mặc định TRUE                                          |
-| helpful_count | Số lượt hữu ích          | INT          |           | Mặc định 0                                             |
-| created_at    | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                             |
-| updated_at    | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
-
----
-
-## Bảng REVIEW_HELPFULNESS (Đánh giá hữu ích)
-
-| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                 |
-| ----------- | ------------------------ | ------------ | --------- | --------------------------------------- |
-| id          | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)           |
-| review_id   | ID đánh giá              | BIGINT       |           | Không rỗng, Khóa ngoại đến book_reviews |
-| customer_id | ID khách hàng            | BIGINT       |           | Không rỗng, Khóa ngoại đến customers    |
-| is_helpful  | Hữu ích                  | BOOLEAN      |           | Không rỗng (NOT NULL)                   |
-| created_at  | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP              |
-
----
-
-## Bảng NOTIFICATIONS (Thông báo)
-
-| Tên cột    | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                         |
-| ---------- | ------------------------ | ------------ | --------- | --------------------------------------------------------------- |
-| id         | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                                   |
-| user_id    | ID người dùng            | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng users                           |
-| title      | Tiêu đề thông báo        | VARCHAR      | 255       | Không rỗng (NOT NULL)                                           |
-| content    | Nội dung thông báo       | TEXT         |           | Không rỗng (NOT NULL)                                           |
-| type       | Loại thông báo           | ENUM         |           | ('info', 'warning', 'success', 'error'), Mặc định 'info'        |
-| category   | Danh mục thông báo       | ENUM         |           | ('order', 'promotion', 'security', 'system'), Mặc định 'system' |
-| is_read    | Đã đọc                   | BOOLEAN      |           | Mặc định FALSE                                                  |
-| read_at    | Thời gian đọc            | TIMESTAMP    |           |                                                                 |
-| created_at | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                                      |
-
----
-
-## Bảng SUPPORT_TICKETS (Yêu cầu hỗ trợ)
-
-| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                        |
-| ----------- | ------------------------ | ------------ | --------- | -------------------------------------------------------------- |
-| id          | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                                  |
-| ticket_code | Mã phiếu hỗ trợ          | VARCHAR      | 20        | Duy nhất (UNIQUE), Không rỗng                                  |
-| customer_id | ID khách hàng            | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng customers                      |
-| subject     | Chủ đề                   | VARCHAR      | 255       | Không rỗng (NOT NULL)                                          |
-| description | Mô tả                    | TEXT         |           | Không rỗng (NOT NULL)                                          |
-| priority    | Độ ưu tiên               | ENUM         |           | ('low', 'medium', 'high', 'urgent'), Mặc định 'medium'         |
-| status      | Trạng thái               | ENUM         |           | ('open', 'in_progress', 'resolved', 'closed'), Mặc định 'open' |
-| assigned_to | ID người được giao       | BIGINT       |           | Khóa ngoại đến bảng users                                      |
-| created_at  | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                                     |
-| updated_at  | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP         |
-
----
-
-## Bảng SUPPORT_MESSAGES (Tin nhắn hỗ trợ)
-
-| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                    |
-| ----------- | ------------------------ | ------------ | --------- | ------------------------------------------ |
-| id          | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)              |
-| ticket_id   | ID phiếu hỗ trợ          | BIGINT       |           | Không rỗng, Khóa ngoại đến support_tickets |
-| sender_id   | ID người gửi             | BIGINT       |           | Không rỗng, Khóa ngoại đến users           |
-| message     | Nội dung tin nhắn        | TEXT         |           | Không rỗng (NOT NULL)                      |
-| is_internal | Tin nhắn nội bộ          | BOOLEAN      |           | Mặc định FALSE                             |
-| created_at  | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                 |
-
----
+| Tên cột        | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                               |
+| -------------- | ------------------------ | ------------ | --------- | ------------------------------------------------------------------------------------- |
+| id             | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                                               |
+| email          | Địa chỉ email            | VARCHAR      | 255       | Duy nhất (UNIQUE), Không rỗng (NOT NULL)                                              |
+| password_hash  | Mã hóa mật khẩu          | VARCHAR      | 255       | Không rỗng (NOT NULL)                                                                 |
+| full_name      | Họ và tên đầy đủ         | VARCHAR      | 255       | Không rỗng (NOT NULL)                                                                 |
+| phone          | Số điện thoại            | VARCHAR      | 20        |                                                                                       |
+| avatar_url     | URL ảnh đại diện         | TEXT         |           |                                                                                       |
+| date_of_birth  | Ngày sinh                | DATE         |           |                                                                                       |
+| gender         | Giới tính                | VARCHAR      | 10        | CHECK (gender IN ('male', 'female', 'other'))                                         |
+| address        | Địa chỉ                  | TEXT         |           |                                                                                       |
+| city           | Thành phố                | VARCHAR      | 100       |                                                                                       |
+| district       | Quận/Huyện               | VARCHAR      | 100       |                                                                                       |
+| ward           | Phường/Xã                | VARCHAR      | 100       |                                                                                       |
+| postal_code    | Mã bưu điện              | VARCHAR      | 20        |                                                                                       |
+| role           | Vai trò                  | VARCHAR      | 20        | NOT NULL, DEFAULT 'user', CHECK (role IN ('user', 'admin', 'staff', 'warehouse'))     |
+| status         | Trạng thái tài khoản     | VARCHAR      | 20        | NOT NULL, DEFAULT 'active', CHECK (status IN ('active', 'inactive', 'banned'))        |
+| email_verified | Xác thực email           | BOOLEAN      |           | DEFAULT FALSE                                                                         |
+| phone_verified | Xác thực số điện thoại   | BOOLEAN      |           | DEFAULT FALSE                                                                         |
+| last_login     | Lần đăng nhập cuối       | TIMESTAMP    |           |                                                                                       |
+| total_orders   | Tổng số đơn hàng         | INTEGER      |           | DEFAULT 0                                                                             |
+| total_spent    | Tổng số tiền đã chi      | DECIMAL      | 15,2      | DEFAULT 0                                                                             |
+| rank           | Cấp độ thành viên        | VARCHAR      | 20        | DEFAULT 'Bronze', CHECK (rank IN ('Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond')) |
+| points         | Điểm tích lũy            | INTEGER      |           | DEFAULT 0                                                                             |
+| created_at     | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                             |
+| updated_at     | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                             |
 
 ## Bảng USER_SESSIONS (Phiên đăng nhập)
 
-| Tên cột       | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
-| ------------- | ------------------------ | ------------ | --------- | ------------------------------------------------------ |
-| id            | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                          |
-| user_id       | ID người dùng            | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng users                  |
-| session_token | Token phiên              | VARCHAR      | 255       | Duy nhất (UNIQUE), Không rỗng                          |
-| ip_address    | Địa chỉ IP               | VARCHAR      | 45        |                                                        |
-| user_agent    | User Agent               | TEXT         |           |                                                        |
-| device_info   | Thông tin thiết bị       | VARCHAR      | 255       |                                                        |
-| is_active     | Trạng thái hoạt động     | BOOLEAN      |           | Mặc định TRUE                                          |
-| last_activity | Hoạt động cuối           | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
-| created_at    | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                             |
-| expires_at    | Thời gian hết hạn        | TIMESTAMP    |           | Không rỗng (NOT NULL)                                  |
-
----
+| Tên cột       | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                     |
+| ------------- | ------------------------ | ------------ | --------- | ------------------------------------------- |
+| id            | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())     |
+| user_id       | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id) |
+| session_token | Token phiên đăng nhập    | VARCHAR      | 255       | Duy nhất (UNIQUE), Không rỗng (NOT NULL)    |
+| device_info   | Thông tin thiết bị       | TEXT         |           |                                             |
+| ip_address    | Địa chỉ IP               | INET         |           |                                             |
+| user_agent    | Thông tin trình duyệt    | TEXT         |           |                                             |
+| is_active     | Trạng thái hoạt động     | BOOLEAN      |           | DEFAULT TRUE                                |
+| expires_at    | Thời gian hết hạn        | TIMESTAMP    |           | Không rỗng (NOT NULL)                       |
+| created_at    | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                   |
+| last_activity | Lần hoạt động cuối       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                   |
 
 ## Bảng LOGIN_HISTORY (Lịch sử đăng nhập)
 
-| Tên cột          | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                          |
-| ---------------- | ------------------------ | ------------ | --------- | -------------------------------- |
-| id               | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)    |
-| user_id          | ID người dùng            | BIGINT       |           | Không rỗng, Khóa ngoại đến users |
-| ip_address       | Địa chỉ IP               | VARCHAR      | 45        |                                  |
-| user_agent       | User Agent               | TEXT         |           |                                  |
-| login_successful | Đăng nhập thành công     | BOOLEAN      |           | Không rỗng (NOT NULL)            |
-| failure_reason   | Lý do thất bại           | VARCHAR      | 255       |                                  |
-| created_at       | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP       |
+| Tên cột        | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                     |
+| -------------- | ------------------------ | ------------ | --------- | ------------------------------------------- |
+| id             | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())     |
+| user_id        | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id) |
+| login_time     | Thời gian đăng nhập      | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                   |
+| ip_address     | Địa chỉ IP               | INET         |           |                                             |
+| user_agent     | Thông tin trình duyệt    | TEXT         |           |                                             |
+| device_info    | Thông tin thiết bị       | TEXT         |           |                                             |
+| success        | Trạng thái thành công    | BOOLEAN      |           | Không rỗng (NOT NULL)                       |
+| failure_reason | Lý do thất bại           | VARCHAR      | 255       |                                             |
 
----
+## Bảng CATEGORIES (Danh mục sản phẩm)
 
-## Bảng SYSTEM_LOGS (Nhật ký hệ thống)
+| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                  |
+| ----------- | ------------------------ | ------------ | --------- | ---------------------------------------- |
+| id          | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())  |
+| name        | Tên danh mục             | VARCHAR      | 255       | Không rỗng (NOT NULL)                    |
+| slug        | URL slug                 | VARCHAR      | 255       | Duy nhất (UNIQUE), Không rỗng (NOT NULL) |
+| description | Mô tả danh mục           | TEXT         |           |                                          |
+| image_url   | URL hình ảnh danh mục    | TEXT         |           |                                          |
+| parent_id   | ID danh mục cha          | UUID         |           | Tham chiếu categories(id)                |
+| sort_order  | Thứ tự sắp xếp           | INTEGER      |           | DEFAULT 0                                |
+| is_active   | Trạng thái hoạt động     | BOOLEAN      |           | DEFAULT TRUE                             |
+| created_at  | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                |
+| updated_at  | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                |
 
-| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                   |
-| ----------- | ------------------------ | ------------ | --------- | --------------------------------------------------------- |
-| id          | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                             |
-| user_id     | ID người dùng            | BIGINT       |           | Khóa ngoại đến bảng users (có thể NULL)                   |
-| action      | Hành động                | VARCHAR      | 100       | Không rỗng (NOT NULL)                                     |
-| resource    | Tài nguyên               | VARCHAR      | 50        | Không rỗng (NOT NULL)                                     |
-| resource_id | ID tài nguyên            | BIGINT       |           |                                                           |
-| description | Mô tả                    | TEXT         |           |                                                           |
-| ip_address  | Địa chỉ IP               | VARCHAR      | 45        |                                                           |
-| user_agent  | User Agent               | TEXT         |           |                                                           |
-| level       | Mức độ                   | ENUM         |           | ('info', 'warning', 'error', 'critical'), Mặc định 'info' |
-| created_at  | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                                |
+## Bảng BRANDS (Thương hiệu)
 
----
+| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                  |
+| ----------- | ------------------------ | ------------ | --------- | ---------------------------------------- |
+| id          | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())  |
+| name        | Tên thương hiệu          | VARCHAR      | 255       | Không rỗng (NOT NULL)                    |
+| slug        | URL slug                 | VARCHAR      | 255       | Duy nhất (UNIQUE), Không rỗng (NOT NULL) |
+| logo_url    | URL logo thương hiệu     | TEXT         |           |                                          |
+| description | Mô tả thương hiệu        | TEXT         |           |                                          |
+| website     | Website thương hiệu      | VARCHAR      | 255       |                                          |
+| is_active   | Trạng thái hoạt động     | BOOLEAN      |           | DEFAULT TRUE                             |
+| created_at  | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                |
+| updated_at  | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                |
 
-## Bảng IMPORT_REQUESTS (Yêu cầu nhập hàng)
+## Bảng PRODUCTS (Sản phẩm)
 
-| Tên cột            | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                              |
-| ------------------ | ------------------------ | ------------ | --------- | -------------------------------------------------------------------- |
-| id                 | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                                        |
-| request_code       | Mã yêu cầu               | VARCHAR      | 20        | Duy nhất (UNIQUE), Không rỗng                                        |
-| book_id            | ID sách                  | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng books                                |
-| requested_by       | ID người yêu cầu         | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng users                                |
-| requested_quantity | Số lượng yêu cầu         | INT          |           | Không rỗng (NOT NULL)                                                |
-| reason             | Lý do                    | TEXT         |           |                                                                      |
-| priority           | Độ ưu tiên               | ENUM         |           | ('low', 'medium', 'high', 'urgent'), Mặc định 'medium'               |
-| status             | Trạng thái               | ENUM         |           | ('pending', 'approved', 'rejected', 'completed'), Mặc định 'pending' |
-| approved_by        | ID người duyệt           | BIGINT       |           | Khóa ngoại đến bảng users                                            |
-| approved_at        | Thời gian duyệt          | TIMESTAMP    |           |                                                                      |
-| rejection_reason   | Lý do từ chối            | TEXT         |           |                                                                      |
-| created_at         | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                                           |
-| updated_at         | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP               |
+| Tên cột              | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                            |
+| -------------------- | ------------------------ | ------------ | --------- | ---------------------------------------------------------------------------------- |
+| id                   | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                                            |
+| name                 | Tên sản phẩm             | VARCHAR      | 255       | Không rỗng (NOT NULL)                                                              |
+| slug                 | URL slug                 | VARCHAR      | 255       | Duy nhất (UNIQUE), Không rỗng (NOT NULL)                                           |
+| description          | Mô tả sản phẩm           | TEXT         |           |                                                                                    |
+| short_description    | Mô tả ngắn               | TEXT         |           |                                                                                    |
+| category_id          | ID danh mục              | UUID         |           | Không rỗng (NOT NULL), Tham chiếu categories(id)                                   |
+| brand_id             | ID thương hiệu           | UUID         |           | Không rỗng (NOT NULL), Tham chiếu brands(id)                                       |
+| series               | Tên series               | VARCHAR      | 255       |                                                                                    |
+| scale                | Tỷ lệ mô hình            | VARCHAR      | 50        |                                                                                    |
+| material             | Chất liệu                | VARCHAR      | 100       |                                                                                    |
+| dimensions           | Kích thước               | VARCHAR      | 100       |                                                                                    |
+| weight               | Trọng lượng              | DECIMAL      | 8,2       |                                                                                    |
+| price                | Giá bán                  | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                                                              |
+| original_price       | Giá gốc                  | DECIMAL      | 15,2      |                                                                                    |
+| cost_price           | Giá nhập                 | DECIMAL      | 15,2      |                                                                                    |
+| sku                  | Mã sản phẩm              | VARCHAR      | 100       | Duy nhất (UNIQUE)                                                                  |
+| barcode              | Mã vạch                  | VARCHAR      | 100       |                                                                                    |
+| status               | Trạng thái sản phẩm      | VARCHAR      | 20        | DEFAULT 'draft', CHECK (status IN ('draft', 'active', 'inactive', 'discontinued')) |
+| is_featured          | Sản phẩm nổi bật         | BOOLEAN      |           | DEFAULT FALSE                                                                      |
+| is_pre_order         | Sản phẩm đặt trước       | BOOLEAN      |           | DEFAULT FALSE                                                                      |
+| pre_order_start_date | Ngày bắt đầu đặt trước   | TIMESTAMP    |           |                                                                                    |
+| pre_order_end_date   | Ngày kết thúc đặt trước  | TIMESTAMP    |           |                                                                                    |
+| release_date         | Ngày phát hành           | DATE         |           |                                                                                    |
+| stock_quantity       | Số lượng tồn kho         | INTEGER      |           | DEFAULT 0                                                                          |
+| min_stock_level      | Mức tồn kho tối thiểu    | INTEGER      |           | DEFAULT 0                                                                          |
+| max_stock_level      | Mức tồn kho tối đa       | INTEGER      |           | DEFAULT 0                                                                          |
+| weight_kg            | Trọng lượng (kg)         | DECIMAL      | 8,2       |                                                                                    |
+| dimensions_cm        | Kích thước (cm)          | VARCHAR      | 50        |                                                                                    |
+| tags                 | Thẻ tag                  | TEXT[]       |           | Mảng text                                                                          |
+| meta_title           | Tiêu đề SEO              | VARCHAR      | 255       |                                                                                    |
+| meta_description     | Mô tả SEO                | TEXT         |           |                                                                                    |
+| created_by           | Người tạo                | UUID         |           | Tham chiếu users(id)                                                               |
+| updated_by           | Người cập nhật           | UUID         |           | Tham chiếu users(id)                                                               |
+| created_at           | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                          |
+| updated_at           | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                          |
 
----
+## Bảng PRODUCT_IMAGES (Hình ảnh sản phẩm)
 
-## Bảng RETURN_REQUESTS (Yêu cầu đổi trả)
+| Tên cột    | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                        |
+| ---------- | ------------------------ | ------------ | --------- | ---------------------------------------------- |
+| id         | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())        |
+| product_id | ID sản phẩm              | UUID         |           | Không rỗng (NOT NULL), Tham chiếu products(id) |
+| image_url  | URL hình ảnh             | TEXT         |           | Không rỗng (NOT NULL)                          |
+| alt_text   | Văn bản thay thế         | VARCHAR      | 255       |                                                |
+| sort_order | Thứ tự sắp xếp           | INTEGER      |           | DEFAULT 0                                      |
+| is_primary | Hình ảnh chính           | BOOLEAN      |           | DEFAULT FALSE                                  |
+| created_at | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                      |
 
-| Tên cột      | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                              |
-| ------------ | ------------------------ | ------------ | --------- | -------------------------------------------------------------------- |
-| id           | Khóa chính (PRIMARY KEY) | BIGINT       |           | Tự động tăng (AUTO_INCREMENT)                                        |
-| request_code | Mã yêu cầu               | VARCHAR      | 20        | Duy nhất (UNIQUE), Không rỗng                                        |
-| order_id     | ID đơn hàng              | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng orders                               |
-| customer_id  | ID khách hàng            | BIGINT       |           | Không rỗng, Khóa ngoại đến bảng customers                            |
-| reason       | Lý do                    | TEXT         |           | Không rỗng (NOT NULL)                                                |
-| status       | Trạng thái               | ENUM         |           | ('pending', 'approved', 'rejected', 'completed'), Mặc định 'pending' |
-| processed_by | ID người xử lý           | BIGINT       |           | Khóa ngoại đến bảng users                                            |
-| processed_at | Thời gian xử lý          | TIMESTAMP    |           |                                                                      |
-| notes        | Ghi chú                  | TEXT         |           |                                                                      |
-| created_at   | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP                                           |
-| updated_at   | Thời gian cập nhật       | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP               |
+## Bảng PRODUCT_VARIANTS (Biến thể sản phẩm)
 
----
+| Tên cột        | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                        |
+| -------------- | ------------------------ | ------------ | --------- | ---------------------------------------------- |
+| id             | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())        |
+| product_id     | ID sản phẩm              | UUID         |           | Không rỗng (NOT NULL), Tham chiếu products(id) |
+| name           | Tên biến thể             | VARCHAR      | 255       | Không rỗng (NOT NULL)                          |
+| sku            | Mã biến thể              | VARCHAR      | 100       | Duy nhất (UNIQUE)                              |
+| price          | Giá biến thể             | DECIMAL      | 15,2      |                                                |
+| stock_quantity | Số lượng tồn kho         | INTEGER      |           | DEFAULT 0                                      |
+| attributes     | Thuộc tính biến thể      | JSONB        |           | {color: "red", size: "M"}                      |
+| is_active      | Trạng thái hoạt động     | BOOLEAN      |           | DEFAULT TRUE                                   |
+| created_at     | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                      |
+| updated_at     | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                      |
 
-## Bảng WORKFLOW_TRANSITIONS (Chuyển đổi workflow)
+## Bảng INVENTORY (Tồn kho)
 
-| Tên cột             | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                       |
-| ------------------- | ------------------------ | ------------ | --------- | ----------------------------- |
-| id                  | Khóa chính (PRIMARY KEY) | INT          |           | Tự động tăng (AUTO_INCREMENT) |
-| resource_type       | Loại tài nguyên          | VARCHAR      | 50        | Không rỗng (NOT NULL)         |
-| from_status         | Trạng thái từ            | VARCHAR      | 50        | Không rỗng (NOT NULL)         |
-| to_status           | Trạng thái đến           | VARCHAR      | 50        | Không rỗng (NOT NULL)         |
-| required_role       | Vai trò yêu cầu          | VARCHAR      | 50        |                               |
-| required_permission | Quyền hạn yêu cầu        | VARCHAR      | 100       |                               |
-| is_active           | Trạng thái hoạt động     | BOOLEAN      |           | Mặc định TRUE                 |
-| created_at          | Thời gian tạo            | TIMESTAMP    |           | Mặc định CURRENT_TIMESTAMP    |
+| Tên cột            | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                        |
+| ------------------ | ------------------------ | ------------ | --------- | ---------------------------------------------- |
+| id                 | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())        |
+| product_id         | ID sản phẩm              | UUID         |           | Không rỗng (NOT NULL), Tham chiếu products(id) |
+| variant_id         | ID biến thể              | UUID         |           | Tham chiếu product_variants(id)                |
+| warehouse_location | Vị trí kho               | VARCHAR      | 100       |                                                |
+| quantity_available | Số lượng có sẵn          | INTEGER      |           | Không rỗng (NOT NULL), DEFAULT 0               |
+| quantity_reserved  | Số lượng đã đặt          | INTEGER      |           | Không rỗng (NOT NULL), DEFAULT 0               |
+| quantity_sold      | Số lượng đã bán          | INTEGER      |           | Không rỗng (NOT NULL), DEFAULT 0               |
+| min_stock_level    | Mức tồn kho tối thiểu    | INTEGER      |           | DEFAULT 0                                      |
+| max_stock_level    | Mức tồn kho tối đa       | INTEGER      |           | DEFAULT 0                                      |
+| reorder_point      | Điểm đặt hàng lại        | INTEGER      |           | DEFAULT 0                                      |
+| last_restocked     | Lần nhập kho cuối        | TIMESTAMP    |           |                                                |
+| last_audit         | Lần kiểm kê cuối         | TIMESTAMP    |           |                                                |
+| created_at         | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                      |
+| updated_at         | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                      |
+
+## Bảng INVENTORY_TRANSACTIONS (Giao dịch tồn kho)
+
+| Tên cột           | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                                    |
+| ----------------- | ------------------------ | ------------ | --------- | ------------------------------------------------------------------------------------------ |
+| id                | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                                                    |
+| product_id        | ID sản phẩm              | UUID         |           | Không rỗng (NOT NULL), Tham chiếu products(id)                                             |
+| variant_id        | ID biến thể              | UUID         |           | Tham chiếu product_variants(id)                                                            |
+| transaction_type  | Loại giao dịch           | VARCHAR      | 20        | Không rỗng (NOT NULL), CHECK (transaction_type IN ('in', 'out', 'adjustment', 'transfer')) |
+| quantity          | Số lượng                 | INTEGER      |           | Không rỗng (NOT NULL)                                                                      |
+| previous_quantity | Số lượng trước đó        | INTEGER      |           | Không rỗng (NOT NULL)                                                                      |
+| new_quantity      | Số lượng mới             | INTEGER      |           | Không rỗng (NOT NULL)                                                                      |
+| reason            | Lý do giao dịch          | VARCHAR      | 255       |                                                                                            |
+| reference_id      | ID tham chiếu            | UUID         |           | ID của đơn hàng, phiếu nhập, etc.                                                          |
+| reference_type    | Loại tham chiếu          | VARCHAR      | 50        | 'order', 'import', 'adjustment', etc.                                                      |
+| created_by        | Người tạo                | UUID         |           | Tham chiếu users(id)                                                                       |
+| created_at        | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                                  |
+
+## Bảng STOCK_ALERTS (Cảnh báo tồn kho)
+
+| Tên cột            | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                                 |
+| ------------------ | ------------------------ | ------------ | --------- | --------------------------------------------------------------------------------------- |
+| id                 | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                                                 |
+| product_id         | ID sản phẩm              | UUID         |           | Không rỗng (NOT NULL), Tham chiếu products(id)                                          |
+| alert_type         | Loại cảnh báo            | VARCHAR      | 20        | Không rỗng (NOT NULL), CHECK (alert_type IN ('low_stock', 'out_of_stock', 'overstock')) |
+| current_quantity   | Số lượng hiện tại        | INTEGER      |           | Không rỗng (NOT NULL)                                                                   |
+| threshold_quantity | Số lượng ngưỡng          | INTEGER      |           | Không rỗng (NOT NULL)                                                                   |
+| is_resolved        | Đã giải quyết            | BOOLEAN      |           | DEFAULT FALSE                                                                           |
+| resolved_at        | Thời gian giải quyết     | TIMESTAMP    |           |                                                                                         |
+| resolved_by        | Người giải quyết         | UUID         |           | Tham chiếu users(id)                                                                    |
+| created_at         | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                               |
+
+## Bảng CART (Giỏ hàng)
+
+| Tên cột    | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                     |
+| ---------- | ------------------------ | ------------ | --------- | ------------------------------------------- |
+| id         | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())     |
+| user_id    | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id) |
+| session_id | ID phiên làm việc        | VARCHAR      | 255       | Cho khách vãng lai                          |
+| created_at | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                   |
+| updated_at | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                   |
+
+## Bảng CART_ITEMS (Sản phẩm trong giỏ hàng)
+
+| Tên cột    | Giải thích                     | Kiểu dữ liệu | Maxlength | Ghi chú                                        |
+| ---------- | ------------------------------ | ------------ | --------- | ---------------------------------------------- |
+| id         | Khóa chính (PRIMARY KEY)       | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())        |
+| cart_id    | ID giỏ hàng                    | UUID         |           | Không rỗng (NOT NULL), Tham chiếu cart(id)     |
+| product_id | ID sản phẩm                    | UUID         |           | Không rỗng (NOT NULL), Tham chiếu products(id) |
+| variant_id | ID biến thể                    | UUID         |           | Tham chiếu product_variants(id)                |
+| quantity   | Số lượng                       | INTEGER      |           | Không rỗng (NOT NULL), DEFAULT 1               |
+| price      | Giá tại thời điểm thêm vào giỏ | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                          |
+| created_at | Thời gian tạo                  | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                      |
+| updated_at | Thời gian cập nhật             | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                      |
+
+## Bảng ORDERS (Đơn hàng)
+
+| Tên cột              | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                                                                                 |
+| -------------------- | ------------------------ | ------------ | --------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| id                   | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                                                                                                 |
+| order_number         | Số đơn hàng              | VARCHAR      | 50        | Duy nhất (UNIQUE), Không rỗng (NOT NULL)                                                                                                |
+| user_id              | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id)                                                                                             |
+| status               | Trạng thái đơn hàng      | VARCHAR      | 20        | NOT NULL, DEFAULT 'pending', CHECK (status IN ('pending', 'confirmed', 'processing', 'shipping', 'delivered', 'cancelled', 'returned')) |
+| payment_status       | Trạng thái thanh toán    | VARCHAR      | 20        | NOT NULL, DEFAULT 'pending', CHECK (payment_status IN ('pending', 'paid', 'failed', 'refunded', 'partially_refunded'))                  |
+| shipping_status      | Trạng thái vận chuyển    | VARCHAR      | 20        | NOT NULL, DEFAULT 'pending', CHECK (shipping_status IN ('pending', 'preparing', 'shipped', 'delivered', 'returned'))                    |
+| shipping_name        | Tên người nhận           | VARCHAR      | 255       | Không rỗng (NOT NULL)                                                                                                                   |
+| shipping_phone       | Số điện thoại người nhận | VARCHAR      | 20        | Không rỗng (NOT NULL)                                                                                                                   |
+| shipping_address     | Địa chỉ giao hàng        | TEXT         |           | Không rỗng (NOT NULL)                                                                                                                   |
+| shipping_city        | Thành phố giao hàng      | VARCHAR      | 100       | Không rỗng (NOT NULL)                                                                                                                   |
+| shipping_district    | Quận/Huyện giao hàng     | VARCHAR      | 100       | Không rỗng (NOT NULL)                                                                                                                   |
+| shipping_ward        | Phường/Xã giao hàng      | VARCHAR      | 100       | Không rỗng (NOT NULL)                                                                                                                   |
+| shipping_postal_code | Mã bưu điện giao hàng    | VARCHAR      | 20        |                                                                                                                                         |
+| payment_method       | Phương thức thanh toán   | VARCHAR      | 50        | Không rỗng (NOT NULL)                                                                                                                   |
+| payment_reference    | Mã tham chiếu thanh toán | VARCHAR      | 255       |                                                                                                                                         |
+| shipping_method      | Phương thức vận chuyển   | VARCHAR      | 100       |                                                                                                                                         |
+| shipping_fee         | Phí vận chuyển           | DECIMAL      | 15,2      | DEFAULT 0                                                                                                                               |
+| tracking_number      | Mã vận đơn               | VARCHAR      | 100       |                                                                                                                                         |
+| carrier              | Đơn vị vận chuyển        | VARCHAR      | 100       |                                                                                                                                         |
+| subtotal             | Tổng tiền hàng           | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                                                                                                                   |
+| tax_amount           | Số tiền thuế             | DECIMAL      | 15,2      | DEFAULT 0                                                                                                                               |
+| discount_amount      | Số tiền giảm giá         | DECIMAL      | 15,2      | DEFAULT 0                                                                                                                               |
+| shipping_fee_amount  | Số tiền phí vận chuyển   | DECIMAL      | 15,2      | DEFAULT 0                                                                                                                               |
+| total_amount         | Tổng cộng                | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                                                                                                                   |
+| customer_notes       | Ghi chú khách hàng       | TEXT         |           |                                                                                                                                         |
+| admin_notes          | Ghi chú admin            | TEXT         |           |                                                                                                                                         |
+| order_date           | Ngày đặt hàng            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                                                                               |
+| confirmed_at         | Thời gian xác nhận       | TIMESTAMP    |           |                                                                                                                                         |
+| shipped_at           | Thời gian giao hàng      | TIMESTAMP    |           |                                                                                                                                         |
+| delivered_at         | Thời gian nhận hàng      | TIMESTAMP    |           |                                                                                                                                         |
+| cancelled_at         | Thời gian hủy            | TIMESTAMP    |           |                                                                                                                                         |
+| created_at           | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                                                                               |
+| updated_at           | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                                                                               |
+
+## Bảng ORDER_ITEMS (Chi tiết đơn hàng)
+
+| Tên cột      | Giải thích                     | Kiểu dữ liệu | Maxlength | Ghi chú                                        |
+| ------------ | ------------------------------ | ------------ | --------- | ---------------------------------------------- |
+| id           | Khóa chính (PRIMARY KEY)       | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())        |
+| order_id     | ID đơn hàng                    | UUID         |           | Không rỗng (NOT NULL), Tham chiếu orders(id)   |
+| product_id   | ID sản phẩm                    | UUID         |           | Không rỗng (NOT NULL), Tham chiếu products(id) |
+| variant_id   | ID biến thể                    | UUID         |           | Tham chiếu product_variants(id)                |
+| product_name | Tên sản phẩm tại thời điểm đặt | VARCHAR      | 255       | Không rỗng (NOT NULL)                          |
+| product_sku  | Mã sản phẩm tại thời điểm đặt  | VARCHAR      | 100       |                                                |
+| quantity     | Số lượng                       | INTEGER      |           | Không rỗng (NOT NULL)                          |
+| unit_price   | Đơn giá                        | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                          |
+| total_price  | Thành tiền                     | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                          |
+| created_at   | Thời gian tạo                  | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                      |
+
+## Bảng PAYMENT_METHODS (Phương thức thanh toán)
+
+| Tên cột    | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                             |
+| ---------- | ------------------------ | ------------ | --------- | ----------------------------------------------------------------------------------- |
+| id         | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                                             |
+| name       | Tên phương thức          | VARCHAR      | 100       | Không rỗng (NOT NULL)                                                               |
+| code       | Mã phương thức           | VARCHAR      | 50        | Duy nhất (UNIQUE), Không rỗng (NOT NULL)                                            |
+| type       | Loại phương thức         | VARCHAR      | 20        | Không rỗng (NOT NULL), CHECK (type IN ('cod', 'banking', 'ewallet', 'credit_card')) |
+| is_active  | Trạng thái hoạt động     | BOOLEAN      |           | DEFAULT TRUE                                                                        |
+| config     | Cấu hình phương thức     | JSONB        |           | Cấu hình API, thông tin ngân hàng, etc.                                             |
+| created_at | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                           |
+| updated_at | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                           |
+
+## Bảng SHIPPING_METHODS (Phương thức vận chuyển)
+
+| Tên cột            | Giải thích                | Kiểu dữ liệu | Maxlength | Ghi chú                                 |
+| ------------------ | ------------------------- | ------------ | --------- | --------------------------------------- |
+| id                 | Khóa chính (PRIMARY KEY)  | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid()) |
+| name               | Tên phương thức           | VARCHAR      | 100       | Không rỗng (NOT NULL)                   |
+| carrier            | Đơn vị vận chuyển         | VARCHAR      | 100       | Không rỗng (NOT NULL)                   |
+| description        | Mô tả phương thức         | TEXT         |           |                                         |
+| base_fee           | Phí cơ bản                | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                   |
+| fee_per_kg         | Phí theo kg               | DECIMAL      | 15,2      | DEFAULT 0                               |
+| min_weight         | Trọng lượng tối thiểu     | DECIMAL      | 8,2       | DEFAULT 0                               |
+| max_weight         | Trọng lượng tối đa        | DECIMAL      | 8,2       |                                         |
+| estimated_days_min | Số ngày dự kiến tối thiểu | INTEGER      |           |                                         |
+| estimated_days_max | Số ngày dự kiến tối đa    | INTEGER      |           |                                         |
+| is_active          | Trạng thái hoạt động      | BOOLEAN      |           | DEFAULT TRUE                            |
+| created_at         | Thời gian tạo             | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP               |
+| updated_at         | Thời gian cập nhật        | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP               |
+
+## Bảng ORDER_SHIPPING (Thông tin vận chuyển đơn hàng)
+
+| Tên cột            | Giải thích                  | Kiểu dữ liệu | Maxlength | Ghi chú                                                |
+| ------------------ | --------------------------- | ------------ | --------- | ------------------------------------------------------ |
+| id                 | Khóa chính (PRIMARY KEY)    | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                |
+| order_id           | ID đơn hàng                 | UUID         |           | Không rỗng (NOT NULL), Tham chiếu orders(id)           |
+| shipping_method_id | ID phương thức vận chuyển   | UUID         |           | Không rỗng (NOT NULL), Tham chiếu shipping_methods(id) |
+| tracking_number    | Mã vận đơn                  | VARCHAR      | 100       |                                                        |
+| carrier            | Đơn vị vận chuyển           | VARCHAR      | 100       |                                                        |
+| status             | Trạng thái vận chuyển       | VARCHAR      | 50        |                                                        |
+| estimated_delivery | Thời gian dự kiến giao hàng | TIMESTAMP    |           |                                                        |
+| actual_delivery    | Thời gian thực tế giao hàng | TIMESTAMP    |           |                                                        |
+| notes              | Ghi chú                     | TEXT         |           |                                                        |
+| created_at         | Thời gian tạo               | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                              |
+| updated_at         | Thời gian cập nhật          | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                              |
+
+## Bảng PROMOTIONS (Khuyến mãi)
+
+| Tên cột             | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                                               |
+| ------------------- | ------------------------ | ------------ | --------- | ----------------------------------------------------------------------------------------------------- |
+| id                  | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                                                               |
+| name                | Tên khuyến mãi           | VARCHAR      | 255       | Không rỗng (NOT NULL)                                                                                 |
+| code                | Mã khuyến mãi            | VARCHAR      | 50        | Duy nhất (UNIQUE)                                                                                     |
+| type                | Loại khuyến mãi          | VARCHAR      | 20        | Không rỗng (NOT NULL), CHECK (type IN ('percentage', 'fixed_amount', 'free_shipping', 'buy_x_get_y')) |
+| value               | Giá trị khuyến mãi       | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                                                                                 |
+| min_order_amount    | Đơn hàng tối thiểu       | DECIMAL      | 15,2      | DEFAULT 0                                                                                             |
+| max_discount_amount | Giảm giá tối đa          | DECIMAL      | 15,2      |                                                                                                       |
+| usage_limit         | Giới hạn sử dụng         | INTEGER      |           |                                                                                                       |
+| used_count          | Số lần đã sử dụng        | INTEGER      |           | DEFAULT 0                                                                                             |
+| start_date          | Ngày bắt đầu             | TIMESTAMP    |           | Không rỗng (NOT NULL)                                                                                 |
+| end_date            | Ngày kết thúc            | TIMESTAMP    |           | Không rỗng (NOT NULL)                                                                                 |
+| is_active           | Trạng thái hoạt động     | BOOLEAN      |           | DEFAULT TRUE                                                                                          |
+| created_at          | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                                             |
+| updated_at          | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                                             |
+
+## Bảng PROMOTION_PRODUCTS (Sản phẩm áp dụng khuyến mãi)
+
+| Tên cột      | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                          |
+| ------------ | ------------------------ | ------------ | --------- | ------------------------------------------------ |
+| id           | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())          |
+| promotion_id | ID khuyến mãi            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu promotions(id) |
+| product_id   | ID sản phẩm              | UUID         |           | Tham chiếu products(id)                          |
+| category_id  | ID danh mục              | UUID         |           | Tham chiếu categories(id)                        |
+| brand_id     | ID thương hiệu           | UUID         |           | Tham chiếu brands(id)                            |
+| created_at   | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                        |
+
+## Bảng USER_PROMOTIONS (Khuyến mãi của người dùng)
+
+| Tên cột      | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                          |
+| ------------ | ------------------------ | ------------ | --------- | ------------------------------------------------ |
+| id           | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())          |
+| user_id      | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id)      |
+| promotion_id | ID khuyến mãi            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu promotions(id) |
+| used_at      | Thời gian sử dụng        | TIMESTAMP    |           |                                                  |
+| order_id     | ID đơn hàng              | UUID         |           | Tham chiếu orders(id)                            |
+| created_at   | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                        |
+
+## Bảng REVIEWS (Đánh giá sản phẩm)
+
+| Tên cột       | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                    |
+| ------------- | ------------------------ | ------------ | --------- | ---------------------------------------------------------- |
+| id            | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                    |
+| user_id       | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id)                |
+| product_id    | ID sản phẩm              | UUID         |           | Không rỗng (NOT NULL), Tham chiếu products(id)             |
+| order_id      | ID đơn hàng              | UUID         |           | Tham chiếu orders(id)                                      |
+| rating        | Điểm đánh giá            | INTEGER      |           | Không rỗng (NOT NULL), CHECK (rating >= 1 AND rating <= 5) |
+| title         | Tiêu đề đánh giá         | VARCHAR      | 255       |                                                            |
+| content       | Nội dung đánh giá        | TEXT         |           |                                                            |
+| images        | Hình ảnh đánh giá        | TEXT[]       |           | Mảng URLs của hình ảnh đánh giá                            |
+| is_verified   | Đã xác thực              | BOOLEAN      |           | DEFAULT FALSE                                              |
+| is_approved   | Đã duyệt                 | BOOLEAN      |           | DEFAULT TRUE                                               |
+| helpful_count | Số lượt hữu ích          | INTEGER      |           | DEFAULT 0                                                  |
+| created_at    | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                  |
+| updated_at    | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                  |
+
+## Bảng REVIEW_RESPONSES (Phản hồi đánh giá)
+
+| Tên cột           | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                       |
+| ----------------- | ------------------------ | ------------ | --------- | --------------------------------------------- |
+| id                | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())       |
+| review_id         | ID đánh giá              | UUID         |           | Không rỗng (NOT NULL), Tham chiếu reviews(id) |
+| user_id           | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id)   |
+| content           | Nội dung phản hồi        | TEXT         |           | Không rỗng (NOT NULL)                         |
+| is_admin_response | Phản hồi từ admin        | BOOLEAN      |           | DEFAULT FALSE                                 |
+| created_at        | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                     |
+
+## Bảng REVIEW_LIKES (Thích đánh giá)
+
+| Tên cột    | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                       |
+| ---------- | ------------------------ | ------------ | --------- | --------------------------------------------- |
+| id         | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())       |
+| review_id  | ID đánh giá              | UUID         |           | Không rỗng (NOT NULL), Tham chiếu reviews(id) |
+| user_id    | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id)   |
+| created_at | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                     |
+
+## Bảng SUPPORT_TICKETS (Phiếu hỗ trợ)
+
+| Tên cột       | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                                   |
+| ------------- | ------------------------ | ------------ | --------- | ----------------------------------------------------------------------------------------- |
+| id            | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                                                   |
+| ticket_number | Số phiếu hỗ trợ          | VARCHAR      | 50        | Duy nhất (UNIQUE), Không rỗng (NOT NULL)                                                  |
+| user_id       | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id)                                               |
+| subject       | Tiêu đề phiếu            | VARCHAR      | 255       | Không rỗng (NOT NULL)                                                                     |
+| description   | Mô tả vấn đề             | TEXT         |           | Không rỗng (NOT NULL)                                                                     |
+| category      | Danh mục vấn đề          | VARCHAR      | 50        | Không rỗng (NOT NULL)                                                                     |
+| priority      | Độ ưu tiên               | VARCHAR      | 20        | NOT NULL, DEFAULT 'medium', CHECK (priority IN ('low', 'medium', 'high', 'urgent'))       |
+| status        | Trạng thái phiếu         | VARCHAR      | 20        | NOT NULL, DEFAULT 'open', CHECK (status IN ('open', 'in_progress', 'resolved', 'closed')) |
+| assigned_to   | Người được phân công     | UUID         |           | Tham chiếu users(id)                                                                      |
+| resolution    | Giải pháp                | TEXT         |           |                                                                                           |
+| created_at    | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                                 |
+| updated_at    | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                                 |
+| resolved_at   | Thời gian giải quyết     | TIMESTAMP    |           |                                                                                           |
+| closed_at     | Thời gian đóng           | TIMESTAMP    |           |                                                                                           |
+
+## Bảng SUPPORT_MESSAGES (Tin nhắn hỗ trợ)
+
+| Tên cột          | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                               |
+| ---------------- | ------------------------ | ------------ | --------- | ----------------------------------------------------- |
+| id               | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())               |
+| ticket_id        | ID phiếu hỗ trợ          | UUID         |           | Không rỗng (NOT NULL), Tham chiếu support_tickets(id) |
+| user_id          | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id)           |
+| content          | Nội dung tin nhắn        | TEXT         |           | Không rỗng (NOT NULL)                                 |
+| is_admin_message | Tin nhắn từ admin        | BOOLEAN      |           | DEFAULT FALSE                                         |
+| attachments      | Tệp đính kèm             | TEXT[]       |           | Mảng URLs của tệp đính kèm                            |
+| created_at       | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                             |
+
+## Bảng COMPLAINTS (Khiếu nại)
+
+| Tên cột          | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                                |
+| ---------------- | ------------------------ | ------------ | --------- | -------------------------------------------------------------------------------------- |
+| id               | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                                                |
+| complaint_number | Số khiếu nại             | VARCHAR      | 50        | Duy nhất (UNIQUE), Không rỗng (NOT NULL)                                               |
+| user_id          | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id)                                            |
+| order_id         | ID đơn hàng              | UUID         |           | Tham chiếu orders(id)                                                                  |
+| subject          | Tiêu đề khiếu nại        | VARCHAR      | 255       | Không rỗng (NOT NULL)                                                                  |
+| description      | Mô tả khiếu nại          | TEXT         |           | Không rỗng (NOT NULL)                                                                  |
+| category         | Danh mục khiếu nại       | VARCHAR      | 50        | Không rỗng (NOT NULL)                                                                  |
+| priority         | Độ ưu tiên               | VARCHAR      | 20        | NOT NULL, DEFAULT 'medium', CHECK (priority IN ('low', 'medium', 'high', 'urgent'))    |
+| status           | Trạng thái khiếu nại     | VARCHAR      | 20        | NOT NULL, DEFAULT 'new', CHECK (status IN ('new', 'processing', 'resolved', 'closed')) |
+| assigned_to      | Người được phân công     | UUID         |           | Tham chiếu users(id)                                                                   |
+| resolution       | Giải pháp                | TEXT         |           |                                                                                        |
+| compensation     | Đền bù                   | TEXT         |           |                                                                                        |
+| created_at       | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                              |
+| updated_at       | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                              |
+| resolved_at      | Thời gian giải quyết     | TIMESTAMP    |           |                                                                                        |
+| closed_at        | Thời gian đóng           | TIMESTAMP    |           |                                                                                        |
+
+## Bảng PRE_ORDERS (Đặt trước)
+
+| Tên cột           | Giải thích                  | Kiểu dữ liệu | Maxlength | Ghi chú                                                                                                                             |
+| ----------------- | --------------------------- | ------------ | --------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| id                | Khóa chính (PRIMARY KEY)    | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                                                                                             |
+| pre_order_number  | Số đặt trước                | VARCHAR      | 50        | Duy nhất (UNIQUE), Không rỗng (NOT NULL)                                                                                            |
+| user_id           | ID người dùng               | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id)                                                                                         |
+| product_id        | ID sản phẩm                 | UUID         |           | Không rỗng (NOT NULL), Tham chiếu products(id)                                                                                      |
+| quantity          | Số lượng                    | INTEGER      |           | Không rỗng (NOT NULL)                                                                                                               |
+| price             | Giá đặt trước               | DECIMAL      | 15,2      | Không rỗng (NOT NULL)                                                                                                               |
+| status            | Trạng thái đặt trước        | VARCHAR      | 20        | NOT NULL, DEFAULT 'pending', CHECK (status IN ('pending', 'confirmed', 'processing', 'ready', 'shipped', 'delivered', 'cancelled')) |
+| deposit_amount    | Số tiền cọc                 | DECIMAL      | 15,2      | DEFAULT 0                                                                                                                           |
+| remaining_amount  | Số tiền còn lại             | DECIMAL      | 15,2      |                                                                                                                                     |
+| expected_delivery | Thời gian dự kiến giao hàng | TIMESTAMP    |           |                                                                                                                                     |
+| actual_delivery   | Thời gian thực tế giao hàng | TIMESTAMP    |           |                                                                                                                                     |
+| notes             | Ghi chú                     | TEXT         |           |                                                                                                                                     |
+| created_at        | Thời gian tạo               | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                                                                           |
+| updated_at        | Thời gian cập nhật          | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                                                                           |
+
+## Bảng SPECIAL_REQUESTS (Yêu cầu đặc biệt)
+
+| Tên cột        | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                                                                |
+| -------------- | ------------------------ | ------------ | --------- | ---------------------------------------------------------------------------------------------------------------------- |
+| id             | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                                                                                |
+| request_number | Số yêu cầu               | VARCHAR      | 50        | Duy nhất (UNIQUE), Không rỗng (NOT NULL)                                                                               |
+| user_id        | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id)                                                                            |
+| product_name   | Tên sản phẩm yêu cầu     | VARCHAR      | 255       | Không rỗng (NOT NULL)                                                                                                  |
+| brand          | Thương hiệu              | VARCHAR      | 100       |                                                                                                                        |
+| series         | Tên series               | VARCHAR      | 100       |                                                                                                                        |
+| scale          | Tỷ lệ mô hình            | VARCHAR      | 50        |                                                                                                                        |
+| description    | Mô tả yêu cầu            | TEXT         |           | Không rỗng (NOT NULL)                                                                                                  |
+| budget_min     | Ngân sách tối thiểu      | DECIMAL      | 15,2      |                                                                                                                        |
+| budget_max     | Ngân sách tối đa         | DECIMAL      | 15,2      |                                                                                                                        |
+| status         | Trạng thái yêu cầu       | VARCHAR      | 20        | NOT NULL, DEFAULT 'pending', CHECK (status IN ('pending', 'reviewing', 'quoted', 'accepted', 'rejected', 'completed')) |
+| admin_response | Phản hồi từ admin        | TEXT         |           |                                                                                                                        |
+| quoted_price   | Giá báo giá              | DECIMAL      | 15,2      |                                                                                                                        |
+| created_at     | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                                                              |
+| updated_at     | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                                                              |
+
+## Bảng POSTS (Bài viết)
+
+| Tên cột        | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                                         |
+| -------------- | ------------------------ | ------------ | --------- | ------------------------------------------------------------------------------- |
+| id             | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                                         |
+| title          | Tiêu đề bài viết         | VARCHAR      | 255       | Không rỗng (NOT NULL)                                                           |
+| slug           | URL slug                 | VARCHAR      | 255       | Duy nhất (UNIQUE), Không rỗng (NOT NULL)                                        |
+| content        | Nội dung bài viết        | TEXT         |           | Không rỗng (NOT NULL)                                                           |
+| excerpt        | Tóm tắt bài viết         | TEXT         |           |                                                                                 |
+| featured_image | Hình ảnh nổi bật         | TEXT         |           |                                                                                 |
+| author_id      | ID tác giả               | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id)                                     |
+| status         | Trạng thái bài viết      | VARCHAR      | 20        | NOT NULL, DEFAULT 'draft', CHECK (status IN ('draft', 'published', 'archived')) |
+| post_type      | Loại bài viết            | VARCHAR      | 20        | DEFAULT 'post', CHECK (post_type IN ('post', 'page', 'announcement'))           |
+| view_count     | Số lượt xem              | INTEGER      |           | DEFAULT 0                                                                       |
+| like_count     | Số lượt thích            | INTEGER      |           | DEFAULT 0                                                                       |
+| comment_count  | Số lượt bình luận        | INTEGER      |           | DEFAULT 0                                                                       |
+| is_featured    | Bài viết nổi bật         | BOOLEAN      |           | DEFAULT FALSE                                                                   |
+| published_at   | Thời gian xuất bản       | TIMESTAMP    |           |                                                                                 |
+| created_at     | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                       |
+| updated_at     | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                                       |
+
+## Bảng POST_COMMENTS (Bình luận bài viết)
+
+| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                     |
+| ----------- | ------------------------ | ------------ | --------- | ------------------------------------------- |
+| id          | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())     |
+| post_id     | ID bài viết              | UUID         |           | Không rỗng (NOT NULL), Tham chiếu posts(id) |
+| user_id     | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id) |
+| parent_id   | ID bình luận cha         | UUID         |           | Tham chiếu post_comments(id)                |
+| content     | Nội dung bình luận       | TEXT         |           | Không rỗng (NOT NULL)                       |
+| is_approved | Đã duyệt                 | BOOLEAN      |           | DEFAULT TRUE                                |
+| like_count  | Số lượt thích            | INTEGER      |           | DEFAULT 0                                   |
+| created_at  | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                   |
+| updated_at  | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                   |
+
+## Bảng NOTIFICATIONS (Thông báo)
+
+| Tên cột    | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                     |
+| ---------- | ------------------------ | ------------ | --------- | ------------------------------------------- |
+| id         | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())     |
+| user_id    | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id) |
+| title      | Tiêu đề thông báo        | VARCHAR      | 255       | Không rỗng (NOT NULL)                       |
+| content    | Nội dung thông báo       | TEXT         |           | Không rỗng (NOT NULL)                       |
+| type       | Loại thông báo           | VARCHAR      | 50        | Không rỗng (NOT NULL)                       |
+| data       | Dữ liệu bổ sung          | JSONB        |           | Dữ liệu bổ sung cho thông báo               |
+| is_read    | Đã đọc                   | BOOLEAN      |           | DEFAULT FALSE                               |
+| read_at    | Thời gian đọc            | TIMESTAMP    |           |                                             |
+| created_at | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                   |
+
+## Bảng WISHLISTS (Danh sách yêu thích)
+
+| Tên cột    | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                        |
+| ---------- | ------------------------ | ------------ | --------- | ---------------------------------------------- |
+| id         | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())        |
+| user_id    | ID người dùng            | UUID         |           | Không rỗng (NOT NULL), Tham chiếu users(id)    |
+| product_id | ID sản phẩm              | UUID         |           | Không rỗng (NOT NULL), Tham chiếu products(id) |
+| created_at | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                      |
+
+## Bảng SYSTEM_SETTINGS (Cài đặt hệ thống)
+
+| Tên cột     | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                                           |
+| ----------- | ------------------------ | ------------ | --------- | ----------------------------------------------------------------- |
+| id          | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid())                           |
+| key         | Khóa cài đặt             | VARCHAR      | 100       | Duy nhất (UNIQUE), Không rỗng (NOT NULL)                          |
+| value       | Giá trị cài đặt          | TEXT         |           |                                                                   |
+| type        | Loại dữ liệu             | VARCHAR      | 20        | NOT NULL, CHECK (type IN ('string', 'number', 'boolean', 'json')) |
+| description | Mô tả cài đặt            | TEXT         |           |                                                                   |
+| category    | Danh mục cài đặt         | VARCHAR      | 50        |                                                                   |
+| is_public   | Cài đặt công khai        | BOOLEAN      |           | DEFAULT FALSE                                                     |
+| created_at  | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                         |
+| updated_at  | Thời gian cập nhật       | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP                                         |
+
+## Bảng AUDIT_LOGS (Nhật ký kiểm toán)
+
+| Tên cột    | Giải thích               | Kiểu dữ liệu | Maxlength | Ghi chú                                 |
+| ---------- | ------------------------ | ------------ | --------- | --------------------------------------- |
+| id         | Khóa chính (PRIMARY KEY) | UUID         |           | Tự động tạo (DEFAULT gen_random_uuid()) |
+| user_id    | ID người dùng            | UUID         |           | Tham chiếu users(id)                    |
+| action     | Hành động                | VARCHAR      | 100       | Không rỗng (NOT NULL)                   |
+| table_name | Tên bảng                 | VARCHAR      | 100       | Không rỗng (NOT NULL)                   |
+| record_id  | ID bản ghi               | UUID         |           | Không rỗng (NOT NULL)                   |
+| old_values | Giá trị cũ               | JSONB        |           |                                         |
+| new_values | Giá trị mới              | JSONB        |           |                                         |
+| ip_address | Địa chỉ IP               | INET         |           |                                         |
+| user_agent | Thông tin trình duyệt    | TEXT         |           |                                         |
+| created_at | Thời gian tạo            | TIMESTAMP    |           | DEFAULT CURRENT_TIMESTAMP               |
 
 ---
 
 ## GHI CHÚ QUAN TRỌNG
 
-### Ký hiệu và quy ước:
+### 1. Quy tắc đặt tên
 
-- **PK**: Khóa chính (Primary Key)
-- **FK**: Khóa ngoại (Foreign Key)
-- **UNIQUE**: Giá trị duy nhất
-- **NOT NULL**: Không được rỗng
-- **AUTO_INCREMENT**: Tự động tăng
-- **DEFAULT**: Giá trị mặc định
-- **CHECK**: Ràng buộc kiểm tra
-- **ENUM**: Kiểu liệt kê
-- **DECIMAL(p,s)**: Số thập phân với p chữ số tổng cộng và s chữ số sau dấu phẩy
+- Tất cả tên bảng và cột sử dụng chữ thường với dấu gạch dưới
+- Tên bảng ở dạng số nhiều (users, products, orders...)
+- Tên cột mô tả rõ ràng chức năng
 
-### Mối quan hệ giữa các bảng:
+### 2. Kiểu dữ liệu
 
-- **1:1**: Một đối một
-- **1:N**: Một đối nhiều
-- **N:N**: Nhiều đối nhiều (qua bảng trung gian)
+- **UUID**: Sử dụng cho tất cả khóa chính để tránh xung đột khi scale
+- **VARCHAR**: Cho chuỗi có độ dài cố định hoặc giới hạn
+- **TEXT**: Cho nội dung dài không giới hạn
+- **DECIMAL**: Cho số tiền với độ chính xác cao
+- **JSONB**: Cho dữ liệu linh hoạt, có thể query được
+- **TIMESTAMP**: Cho thời gian với timezone
+- **BOOLEAN**: Cho giá trị true/false
 
-### Các ràng buộc quan trọng:
+### 3. Ràng buộc (Constraints)
 
-- Tất cả bảng đều có khóa chính tự động tăng
-- Các trường thời gian đều có giá trị mặc định
-- Các trường tiền tệ đều có ràng buộc giá trị dương
-- Các trường email đều có ràng buộc định dạng hợp lệ
-- Các trường rating đều có ràng buộc từ 1-5
+- **PRIMARY KEY**: Khóa chính duy nhất
+- **UNIQUE**: Giá trị duy nhất trong bảng
+- **NOT NULL**: Không được để trống
+- **CHECK**: Kiểm tra giá trị hợp lệ
+- **FOREIGN KEY**: Tham chiếu đến bảng khác
+
+### 4. Mối quan hệ
+
+- **1-n**: Một người dùng có nhiều đơn hàng
+- **n-n**: Nhiều sản phẩm có thể thuộc nhiều khuyến mãi
+- **1-1**: Một đơn hàng có một thông tin vận chuyển
+
+### 5. Indexes được khuyến nghị
+
+- Index trên các cột thường xuyên query (email, status, created_at)
+- Composite index cho các query phức tạp
+- Full-text search index cho tìm kiếm nội dung
